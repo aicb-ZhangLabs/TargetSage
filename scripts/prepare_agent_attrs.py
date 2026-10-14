@@ -9,35 +9,6 @@ import argparse
 import pandas as pd
 import numpy as np
 
-# Final 23-attribute vocabulary (Appendix D), after merging duplicates such as
-# rvis / rv_is / rviz_score -> rvis_score and tissue_specificity ->
-# expression_tissue_specificity.
-VOCAB = [
-    "disease_association",
-    "essential_gene",
-    "loss_of_function_tolerance",
-    "loss_of_function_constraint",
-    "observed_expected_lof_ratio",
-    "rvis_score",
-    "gwas_associations",
-    "protein_protein_interactions",
-    "chemical_gene_interactions",
-    "drug_interaction_types",
-    "known_antibodies",
-    "antibody",
-    "antibody_availability",
-    "small_molecule",
-    "tractable_modalities",
-    "overall_therapeutic_potential",
-    "functional_characterization",
-    "protein_domains",
-    "protein_length",
-    "expression_tissue_specificity",
-    "expression_specificity",
-    "expression_broadly_expressed",
-    "alternative_splicing",
-]
-
 
 def main():
     ap = argparse.ArgumentParser()
@@ -45,7 +16,6 @@ def main():
     ap.add_argument("--output", default="results/agent_tools/agent_attributes_filtered.csv")
     ap.add_argument("--min_coverage", type=float, default=0.05,
                     help="Min fraction of genes that must have a value (default 5%%)")
-    ap.add_argument("--vocab_output", default="data/features_llm_structured_scores.csv")
     ap.add_argument("--max_cols", type=int, default=200,
                     help="Max number of attribute columns to keep (default 200)")
     args = ap.parse_args()
@@ -77,9 +47,6 @@ def main():
     out_df = df[["Gene_Symbol"] + keep_cols].copy()
     out_df.to_csv(args.output, index=False)
     print(f"\nSaved {out_df.shape[1]-1} attribute columns to {args.output}")
-
-    out_df[["Gene_Symbol"] + VOCAB].to_csv(args.vocab_output, index=False)
-    print(f"Saved {len(VOCAB)} vocabulary attributes to {args.vocab_output}")
 
     # Final coverage stats
     final_coverage = out_df[keep_cols].notna().sum(axis=1)

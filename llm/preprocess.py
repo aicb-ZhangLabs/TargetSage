@@ -4,7 +4,7 @@
 TargetSage LLM Preprocessing Pipeline
 
 Generates two LLM-derived feature files for all genes:
-  1. features_llm_structured_scores.csv  — 12-dim explicit attribute scores
+  1. features_llm_static_scores.csv      — 12-dim explicit attribute scores
   2. features_llm_embedding.csv          — high-dim implicit embeddings
 
 Also generates LLM-estimated class priors:
@@ -286,7 +286,7 @@ def main():
 
     # Output paths
     ap.add_argument("--scores_out",
-                    default="data/features_llm_structured_scores.csv")
+                    default="data/features_llm_static_scores.csv")
     ap.add_argument("--embeddings_out",
                     default="data/features_llm_embedding.csv")
     ap.add_argument("--priors_out",

@@ -480,6 +480,8 @@ def main():
                     help="Number of genes sampled per RL step.")
     ap.add_argument("--temperature",    type=float, default=0.8,
                     help="Sampling temperature for generation (higher = more diverse).")
+    ap.add_argument("--max_tokens", type=int, default=512,
+                    help="Max new tokens per generation; 250 truncates the 23-attribute output.")
     ap.add_argument("--legacy_pg_sign", action="store_true",
                     help="Use the sign of the paper's runs.")
     args = ap.parse_args()
@@ -583,7 +585,7 @@ def main():
                     for g in test_genes]
     model.eval()
     texts, _ = generate_batch(model, tokenizer, test_prompts, device,
-                               temperature=0.3, max_tokens=250)
+                               temperature=0.3, max_tokens=args.max_tokens)
     for g, t in zip(test_genes, texts):
         attrs, reasoning = extract_attrs(t)
         print(f"  [{g}] attrs_parsed={len(attrs)}, has_reasoning={'yes' if reasoning else 'no'}")
@@ -632,7 +634,7 @@ def main():
         # Generate G rollouts per gene (with temperature for diversity)
         model.eval()
         texts, gen_ids_list = generate_batch(
-            model, tokenizer, all_prompts, device, args.temperature, max_tokens=250
+            model, tokenizer, all_prompts, device, args.temperature, max_tokens=args.max_tokens
         )
 
         # Parse each rollout's attribute scores and reasoning chain

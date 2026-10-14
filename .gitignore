@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
+
+# outputs
+results/
+logs/
+*.pt
+*.pth
+*.safetensors
+
+# large inputs obtained separately (see data/README.md)
+data/gene_features.tsv
+data/features_llm_embedding.csv

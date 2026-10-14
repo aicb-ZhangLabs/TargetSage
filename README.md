@@ -10,7 +10,7 @@ pip install -r requirements.txt
 
 ## Data
 
-Place `gene_features.tsv` in `data/`. Generated files (LLM steps require `AZURE_OPENAI_{CHAT,EMBED}_{ENDPOINT,KEY}`):
+`data/` contains the structured features and labels. Derived files are generated with (LLM steps require `AZURE_OPENAI_{CHAT,EMBED}_{ENDPOINT,KEY}`):
 
 ```bash
 python scripts/fetch_gene_summaries.py --email <email>     # gene_summaries.tsv
